@@ -26,7 +26,7 @@ const Message = () => {
   };
 
   return (
-    <div className="flex w-full h-130 border border-gray-300 shadow-lg rounded-lg overflow-hidden p-4">
+    <div className="flex w-full h-127 border border-gray-300 shadow-lg rounded-lg overflow-hidden p-4">
       {/* Users List */}
       <div className="w-1/3 bg-gray-100 border-r border-gray-300 p-4">
         <h3 className="text-lg font-semibold mb-4 text-gray-700">Messages</h3>

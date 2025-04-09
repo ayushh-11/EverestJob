@@ -14,7 +14,7 @@ function Navbar() {
       {/* Logo Section */}
       <div className="flex items-center gap-2">
         <img src="/logo.png" alt="Logo" className="h-8 w-8" />
-        <h1 className="text-lg font-bold text-white">Everest Job</h1>
+        <h1 className="text-lg font-bold text-white sm:hidden">Everest Job</h1>
       </div>
 
       {/* Navigation Links */}

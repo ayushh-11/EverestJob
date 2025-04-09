@@ -10,7 +10,7 @@ function JobCard({ job }) {
   };
 
   return (
-    <div className="bg-white rounded-xl overflow-hidden flex flex-col h-full border border-gray-200 transition-all duration-300 hover:shadow-lg hover:border-blue-100 hover:-translate-y-1">
+    <div className="bg-white rounded-xl overflow-hidden flex flex-col h-full border border-gray-200 transition-all duration-300 hover:shadow-lg hover:border-blue-200">
       <div className="p-6 flex-grow">
         <div className="flex items-center gap-4 mb-6">
           <img
@@ -66,7 +66,7 @@ function JobCard({ job }) {
         <button
           onClick={() => handleDetail(job.id)}
           className="w-full bg-gray-800 text-gray-200 px-6 py-3 rounded-lg font-semibold
-             hover:bg-gray-700 hover:text-white shadow-md transition-all duration-300 transform hover:scale-105"
+             hover:bg-gray-700 hover:text-white cursor-pointer shadow-md transition-all duration-300 transform hover:scale-105"
         >
           View Details
         </button>
