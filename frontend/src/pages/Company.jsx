@@ -16,7 +16,7 @@ const Company = () => {
     { name: "Profile", content: <CompanyDetail /> },
     { name: "Dashboard", content: <Dashboard /> },
     { name: "Vacancies Posted", content: <JobPosted />},
-    { name: "Recent Applications", content: "Recent Applications list here..." },
+    { name: "Applicants", content: "Applicants list here..." },
   ];
 
   return (

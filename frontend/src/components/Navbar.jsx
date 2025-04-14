@@ -13,7 +13,7 @@ function Navbar() {
     <nav className="flex justify-between items-center bg-gray-900  text-white text-sm font-bold p-2.5 shadow-lg">
       {/* Logo Section */}
       <div className="flex items-center gap-2">
-        <img src="/logo.png" alt="Logo" className="h-8 w-8" />
+        <img src="/logo.png" alt="Logo" className="h-8 w-8 rounded-full" />
         <h1 className="text-lg font-bold text-white sm:hidden">Everest Job</h1>
       </div>
 

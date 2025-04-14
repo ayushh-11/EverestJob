@@ -1,19 +1,29 @@
-import React from 'react';
-import { FaRegUser } from 'react-icons/fa';
+import React,{useState, useEffect} from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 function UserNav() {
   const location = useLocation(); // Hook to get the current route location
-
   // Function to check if a link is active
   const isActive = (path) => location.pathname === path;
+
+    const [userData, setUserData] = useState(null);
+  
+    useEffect(() => {
+      axios.get("http://localhost:5000/index")
+        .then(response => {
+          if (response.data) {
+            setUserData(response.data);
+          }
+        })
+    }, [])
 
   return (
     <div>
       <nav className="flex justify-between items-center bg-gray-900 text-white text-sm font-bold p-2.5 shadow-lg">
         {/* Logo Section */}
         <div className="flex items-center gap-2">
-          <img src="/logo.png" alt="Logo" className="h-8 w-8 rounded-full" />
+          <img src="logo.png" alt="Logo" className="h-8 w-8 rounded-full" />
           <h1 className="text-lg font-bold text-white">Everest Job</h1>
         </div>
 
@@ -51,7 +61,7 @@ function UserNav() {
             to="/profile"
             className="px-3 py-1 rounded-md hover:bg-gray-800 cursor-pointer text-3xl text-white"
           >
-            <img className="h-10 w-10 rounded-full"  src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
+            <img className="h-10 w-10 rounded-full" src={`http://localhost:5000/${userData?.profile}`} />
           </Link>
           <Link
             to="/login"

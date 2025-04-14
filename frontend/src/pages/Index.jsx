@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
+import axios from "axios"
 import UserNav from "../components/UserNav";
 import { useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
@@ -11,10 +12,21 @@ function Index() {
   const [searchQuery, setSearchQuery] = useState("");
   const [recommendedJobs, setRecommendedJobs] = useState([]);
   const navigate = useNavigate();
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    axios.get("http://localhost:5000/index")
+      .then(response => {
+        if (response.data) {
+          setUserData(response.data);
+        }
+      })
+  }, [])
 
   // Fetching jobs from Redux store
   const jobs = useSelector((state) => state.job.jobs) || [];
-  const userSkills = ["React", "JavaScript", "Frontend"]; // Example user skills
+  const userSkills = userData?.skill; // Example user skills
+  
 
   // Memoized Search Engine
   const searchEngine = useMemo(() => {
@@ -41,7 +53,9 @@ function Index() {
   // Effect to update recommended jobs once
   useEffect(() => {
     setRecommendedJobs(getRecommendations);
-  }, [jobs]);
+  }, [getRecommendations]);
+
+
 
   // Function to handle search query
   const handleSearch = () => {
@@ -51,7 +65,7 @@ function Index() {
   return (
     <div>
       {/* Navbar */}
-      <UserNav />
+      <UserNav/>
 
       {/* Search Area */}
       <div className="w-full flex flex-col items-center text-center py-20 bg-gray-900 shadow-xl">

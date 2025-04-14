@@ -1,11 +1,57 @@
 const express = require("express");
 const app = express();
+const connection = require("./database/db");
+const dotenv = require("dotenv");
+const bodyParser = require("body-parser");
+const session = require("express-session")
+const cors = require("cors")
+const path = require("path");
 
+// Serve static files from "uploads" folder
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
+//Importing Routes
+const createUser = require("./routes/CandidateRegister");
+const loginUser = require("./routes/CandidateLogin");
+const index = require("./routes/IndexPage")
+
+//Initialize session
+app.use(session({
+    name : 'app.sid',
+    secret: "1234567890QWERTY",
+    resave: true,
+    saveUninitialized: true
+}));
+
+//CORS
+app.use(cors({
+    origin: 'http://localhost:5173', // Replace with your React app's URL
+    credentials: true // Allow cookies to be sent
+}));
+
+// Load environment variables
+dotenv.config();
+
+//static file
+app.use('/uploads', express.static('uploads'));
+
+// Middleware
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+// Test route
 app.get("/", (req, res) => {
     res.send("Hello from server");
-})
+});
 
-app.listen(5000,() => {
-    console.log("Server started on port 5000");
-})
+// Routes
+app.use("/", createUser); 
+app.use("/",loginUser)
+app.use("/",index)
+
+// Start server
+const PORT = process.env.PORT || 5000; 
+app.listen(PORT, () => {
+    connection();  
+    console.log(`Server started on port ${PORT}`);
+});
