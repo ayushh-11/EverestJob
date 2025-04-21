@@ -9,22 +9,15 @@ import { useSelector } from "react-redux";
 import { Search } from "js-search"; // Use ExactWordIndex for better matching
 
 function Index() {
+  
   const [searchQuery, setSearchQuery] = useState("");
   const [recommendedJobs, setRecommendedJobs] = useState([]);
   const navigate = useNavigate();
-  const [userData, setUserData] = useState(null);
 
-  useEffect(() => {
-    axios.get("http://localhost:5000/index")
-      .then(response => {
-        if (response.data) {
-          setUserData(response.data);
-        }
-      })
-  }, [])
 
   // Fetching jobs from Redux store
   const jobs = useSelector((state) => state.job.jobs) || [];
+  const userData = useSelector((state) => state.user.user) || [];
   const userSkills = userData?.skill; // Example user skills
   
 

@@ -1,54 +1,91 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FiEdit2, FiUpload, FiPlus, FiX } from "react-icons/fi";
+import { useSelector, useDispatch } from "react-redux";
+import { setCompany } from "../redux/companySlice";
+import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const CompanyDetail = () => {
-  const [company, setCompany] = useState({
-    name: "Tech Innovators Inc.",
-    industry: "Information Technology",
-    description: "Building cutting-edge solutions for tomorrow's problems",
-    email: "contact@techinnovators.com",
-    phone: "+1 (555) 123-4567",
-    website: "www.techinnovators.com",
-    logo: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    specialties: ["AI/ML", "Cloud Computing", "Cybersecurity"]
-  });
-
+  const dispatch = useDispatch();
+  
+  const companyData = useSelector((state) => state.company.company) || [];
+  
+  const [company, setCompanyData] = useState(companyData);
   const [editing, setEditing] = useState(false);
+  const [password, setPassword] = useState(""); // handle separately
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setCompany({ ...company, [name]: value });
-  };
-
-  const handleSpecialtyChange = (index, value) => {
-    const newSpecialties = [...company.specialties];
-    newSpecialties[index] = value;
-    setCompany({ ...company, specialties: newSpecialties });
-  };
-
-  const addSpecialty = () => {
-    setCompany({ ...company, specialties: [...company.specialties, ""] });
-  };
-
-  const removeSpecialty = (index) => {
-    const newSpecialties = company.specialties.filter((_, i) => i !== index);
-    setCompany({ ...company, specialties: newSpecialties });
-  };
-
-  const handleLogoUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setCompany({ ...company, logo: reader.result });
-      };
-      reader.readAsDataURL(file);
+    const { name, value, files } = e.target;
+    if (name === "profilePic") {
+      setCompanyData((prev) => ({
+        ...prev,
+        profile: files[0], // store file
+      }));
+    } else {
+      setCompanyData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSpecialtyChange = (index, value) => {
+    const newSpecialities = [...company.specialities];
+    newSpecialities[index] = value;
+    setCompanyData({ ...company, specialities: newSpecialities });
+  };
+
+  const addSpecialty = () => {
+    setCompanyData({ ...company, specialities: [...company.specialities, ""] });
+  };
+
+  const removeSpecialty = (index) => {
+    const newSpecialities = company.specialities.filter((_, i) => i !== index);
+    setCompanyData({ ...company, specialities: newSpecialities });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setEditing(false);
+    const data = new FormData();
+
+    data.append("name", company.name);
+    data.append("email", company.email);
+    data.append("phone", company.phone);
+    data.append("description", company.description);
+    
+    if (password.length > 0) {
+      data.append("password", password); // only send new password
+      if (password.length < 6) {
+        toast.error("Password must be greater or equal to 6 digit.", {
+          position: "top-center"
+        });
+        return;
+      }
+    }
+
+    company.specialities.forEach((s) => data.append("specialities", s));
+    if (company.logo instanceof File) {
+      data.append("logo", company.logo);
+    }
+    await axios.put(`http://localhost:5000/updateCompany/${company._id}`, data)
+      .then(response => {
+        if(response.data == "exist"){
+          toast.error("Email Exist", {
+            position: "top-center"
+          });
+          return;
+        }
+        if (response.data != "error") {
+          console.log(response.data)
+          setEditing(false);
+          dispatch(setCompany(response.data))
+          toast.success("Data updated.", {
+            position: "top-center"
+          });
+          
+        }
+      })
   };
 
   return (
@@ -86,7 +123,7 @@ const CompanyDetail = () => {
           <div className="flex flex-col items-center">
             <div className="relative mb-4">
               <img
-                src={company.logo}
+                src={`http://localhost:5000/${company.logo}`}
                 alt="Company Logo"
                 className="w-32 h-32 rounded-full border-4 border-gray-700 object-cover"
               />
@@ -97,7 +134,7 @@ const CompanyDetail = () => {
                     type="file"
                     accept="image/*"
                     className="hidden"
-                    onChange={handleLogoUpload}
+                    onChange={handleChange}
                   />
                 </label>
               )}
@@ -113,17 +150,7 @@ const CompanyDetail = () => {
             ) : (
               <h3 className="text-xl font-semibold">{company.name}</h3>
             )}
-            {editing ? (
-              <input
-                type="text"
-                name="industry"
-                value={company.industry}
-                onChange={handleChange}
-                className="text-center text-gray-400 bg-gray-700 rounded p-2 w-full"
-              />
-            ) : (
-              <p className="text-gray-400">{company.industry}</p>
-            )}
+
           </div>
 
           <div className="space-y-4">
@@ -145,7 +172,7 @@ const CompanyDetail = () => {
               <label className="block text-sm font-medium text-gray-400 mb-1">Phone</label>
               {editing ? (
                 <input
-                  type="tel"
+                  type="text"
                   name="phone"
                   value={company.phone}
                   onChange={handleChange}
@@ -156,21 +183,20 @@ const CompanyDetail = () => {
               )}
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-400 mb-1">Website</label>
+
               {editing ? (
-                <input
-                  type="text"
-                  name="website"
-                  value={company.website}
-                  onChange={handleChange}
-                  className="w-full p-2 bg-gray-700 rounded border border-gray-600"
-                />
+                <>
+                  <label className="block text-sm font-medium text-gray-400 mb-1">Password</label>
+                  <input
+                    type="password"
+                    name="phone"
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                    className="w-full p-2 bg-gray-700 rounded border border-gray-600"
+                  />
+                </>
               ) : (
-                <p className="text-blue-400 hover:underline">
-                  <a href={`https://${company.website}`} target="_blank" rel="noopener noreferrer">
-                    {company.website}
-                  </a>
-                </p>
+                ""
               )}
             </div>
           </div>
@@ -195,7 +221,7 @@ const CompanyDetail = () => {
 
           <div>
             <div className="flex justify-between items-center mb-2">
-              <label className="block text-sm font-medium text-gray-400">Specialties</label>
+              <label className="block text-sm font-medium text-gray-400">specialities</label>
               {editing && (
                 <button
                   onClick={addSpecialty}
@@ -206,7 +232,7 @@ const CompanyDetail = () => {
               )}
             </div>
             <div className="flex flex-wrap gap-2">
-              {company.specialties.map((specialty, index) => (
+              {company.specialities.map((specialty, index) => (
                 <div key={index} className="flex items-center gap-1">
                   {editing ? (
                     <>
@@ -234,6 +260,7 @@ const CompanyDetail = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

@@ -14,6 +14,10 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 const createUser = require("./routes/CandidateRegister");
 const loginUser = require("./routes/CandidateLogin");
 const index = require("./routes/IndexPage")
+const updateUser = require("./routes/CandidateUpdate")
+const createCompany = require("./routes/CompanyRegister")
+const loginCompany = require("./routes/CompanyLogin")
+const updateCompany = require("./routes/CompanyUpdate")
 
 //Initialize session
 app.use(session({
@@ -48,6 +52,10 @@ app.get("/", (req, res) => {
 app.use("/", createUser); 
 app.use("/",loginUser)
 app.use("/",index)
+app.use("/",updateUser)
+app.use("/", createCompany)
+app.use("/", loginCompany)
+app.use("/", updateCompany)
 
 // Start server
 const PORT = process.env.PORT || 5000; 

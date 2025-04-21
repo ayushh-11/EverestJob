@@ -2,12 +2,9 @@ import React, { useState } from "react";
 import CompanyDetail from "../components/CompanyDetail";
 import Dashboard from "../components/Dashboard";
 import JobPosted from "../components/JobPosted";
+import { FaSignOutAlt } from "react-icons/fa";
 
-// Dummy data for the sidebar
-const company = {
-  name: "Tech Innovators Inc.",
-  profilePicture: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-};
+
 
 const Company = () => {
   const [selectedOption, setSelectedOption] = useState("Profile");
@@ -15,7 +12,7 @@ const Company = () => {
   const options = [
     { name: "Profile", content: <CompanyDetail /> },
     { name: "Dashboard", content: <Dashboard /> },
-    { name: "Vacancies Posted", content: <JobPosted />},
+    { name: "Vacancies Posted", content: <JobPosted /> },
     { name: "Applicants", content: "Applicants list here..." },
   ];
 
@@ -31,23 +28,31 @@ const Company = () => {
           />
           <h2 className="text-xl font-semibold text-white">Tech Innovators Inc.</h2>
         </div>
-        
+
         <ul className="space-y-2">
           {options.map((option) => (
             <li key={option.name}>
               <button
                 onClick={() => setSelectedOption(option.name)}
-                className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${
-                  selectedOption === option.name
+                className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${selectedOption === option.name
                     ? "bg-blue-600 text-white"
                     : "hover:bg-gray-700"
-                }`}
+                  }`}
               >
                 {option.name}
               </button>
             </li>
           ))}
         </ul>
+        {/* Logout Button */}
+        <div className="mt-50">
+          <button
+            className="w-full flex items-center justify-center gap-2 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
+          >
+            Logout
+            <FaSignOutAlt />
+          </button>
+        </div>
       </div>
 
       {/* Main Content */}
@@ -55,6 +60,8 @@ const Company = () => {
         {options.find(option => option.name === selectedOption)?.content}
       </div>
     </div>
+
+
   );
 };
 

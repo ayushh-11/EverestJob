@@ -1,9 +1,9 @@
-const candidateModel = require("../models/Candidate");
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const multer = require("multer");
 const path = require("path");
+const companyModel = require("../models/Company");
 
 //Storage Config
 const storage = multer.diskStorage({
@@ -13,35 +13,38 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage })
 
-router.post("/createUser", upload.single("profile"), (req, res) => {
-    const { name, email, password, phone, bio, skill } = req.body;
-    candidateModel.findOne({ email })
+router.post("/createCompany", upload.single("logo"), (req, res) => {
+    const { name, email, password, description, specialities, phone } = req.body;
+    companyModel.findOne({ email })
         .then(ress => {
             if (ress)
                 res.json("exist")
             else {
-                const profileImagePath = req.file ? req.file.path : "";
+                const logoPath = req.file ? req.file.path : "";
                 bcrypt.hash(password, 10, (hashError, hash) => {
                     if (hashError)
-                        res.json({ "hashError": hashError });
+                        res.json("error");
 
-                    candidateModel.create({
+                    companyModel.create({
                         name,
-                        profile: profileImagePath,
+                        logo: logoPath,
                         email,
                         password: hash,
-                        phone,
-                        bio,
-                        skill
+                        description,
+                        specialities,
+                        phone
                     })
                         .then(result => {
                             if (result)
                                 res.json("success");
                         })
-                        .catch(error => res.json("error"))
+                        .catch(error => res.json(
+                            "error"
+                        ))
                 })
             }
         })
+
 })
 
 module.exports = router;

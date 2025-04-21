@@ -9,6 +9,8 @@ import Category from "./pages/Category";
 import Explore from "./pages/Explore";
 import JobDetail from "./pages/JobDetail";
 import Company from "./pages/Company";
+import CompanyRegister from "./pages/CompanyRegister";
+import CompanyLogin from "./pages/CompanyLogin";
 
 function App() {
   
@@ -26,6 +28,8 @@ function App() {
         <Route path="/explore" element={<Explore />}></Route>
         <Route path="/jobDetail" element={<JobDetail />}></Route>
         <Route path="/company" element={<Company />}></Route>
+        <Route path="/companyRegister" element={<CompanyRegister />}></Route>
+        <Route path="/companyLogin" element={<CompanyLogin />}></Route>
       </Routes>
      </BrowserRouter>
   

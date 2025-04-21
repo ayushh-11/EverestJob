@@ -3,12 +3,13 @@ import UserNav from "../components/UserNav";
 import Footer from "../components/Footer";
 import UserDetails from "../components/UserDetail";
 import Message from "../components/Message";
+import { useSelector } from "react-redux";
 
 const Profile = () => {
   const [selectedOption, setSelectedOption] = useState("Profile Details");
-
+  const userData = useSelector(state => state.user.user);
   const options = [
-    { name: "Profile Details", content: <UserDetails /> },
+    { name: "Profile Details", content: <UserDetails userData={userData}/> },
     { name: "Vacancies Applied", content: "List of applied vacancies." },
     { name: "Conversation", content: <Message /> },
   ];
@@ -48,7 +49,7 @@ const Profile = () => {
               (option) =>
                 selectedOption === option.name && (
                   <div key={option.name}>
-                    <p>{option.content}</p>
+                    <div>{option.content}</div>
                     <div className="mt-6">{/* Future components */}</div>
                   </div>
                 )

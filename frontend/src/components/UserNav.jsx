@@ -1,23 +1,15 @@
 import React,{useState, useEffect} from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import axios from 'axios';
+import { useSelector } from "react-redux";
 
 function UserNav() {
   const location = useLocation(); // Hook to get the current route location
   // Function to check if a link is active
   const isActive = (path) => location.pathname === path;
 
-    const [userData, setUserData] = useState(null);
+  const userData = useSelector((state) => state.user.user) || [];
   
-    useEffect(() => {
-      axios.get("http://localhost:5000/index")
-        .then(response => {
-          if (response.data) {
-            setUserData(response.data);
-          }
-        })
-    }, [])
-
+   
   return (
     <div>
       <nav className="flex justify-between items-center bg-gray-900 text-white text-sm font-bold p-2.5 shadow-lg">
@@ -61,7 +53,7 @@ function UserNav() {
             to="/profile"
             className="px-3 py-1 rounded-md hover:bg-gray-800 cursor-pointer text-3xl text-white"
           >
-            <img className="h-10 w-10 rounded-full" src={`http://localhost:5000/${userData?.profile}`} />
+            <img className="h-10 w-10 rounded-full" src={`http://localhost:5000/${userData.profile}`} />
           </Link>
           <Link
             to="/login"

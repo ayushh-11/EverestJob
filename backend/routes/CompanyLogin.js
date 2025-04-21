@@ -2,10 +2,11 @@ const candidateModel = require("../models/Candidate");
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
+const companyModel = require("../models/Company");
 
-router.post("/loginUser", (req, res) => {
+router.post("/loginCompany", (req, res) => {
     const {email, password} = req.body;
-    candidateModel.findOne({email})
+    companyModel.findOne({email})
     .then (result => {
         if (result) {
             bcrypt.compare(password, result.password, (passwordError, passwordResult) => {

@@ -4,6 +4,7 @@ import JobCard from '../components/JobCard';
 import Footer from '../components/Footer';
 import Cats from '../components/Cats';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 function Home() {
   const jobs = useSelector((state) => state.job.jobs) || [];
@@ -22,12 +23,20 @@ function Home() {
             <p className="text-lg text-gray-600 mb-8">
               Discover the best job opportunities tailored for you. Start your journey today!
             </p>
-            <a
-              href="#catalogue"
-              className="inline-block bg-black text-white px-8 py-4 rounded-lg hover:bg-gray-800 transition-colors duration-200"
-            >
-              EXPLORE NOW
-            </a>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+              <a
+                href="#catalogue"
+                className="bg-black text-white px-8 py-4 rounded-lg hover:bg-gray-800 transition-colors duration-200 text-center"
+              >
+                EXPLORE NOW
+              </a>
+              <Link
+                to="/companyRegister"
+                className="bg-gray-700 text-white px-8 py-4 rounded-lg hover:bg-gray-800 transition-colors duration-200 text-center"
+              >
+                Company Login
+              </Link>
+            </div>
           </div>
           <div className="flex justify-center md:justify-end">
             <img

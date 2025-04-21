@@ -4,9 +4,9 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch } from "react-redux";
-import { setUser } from "../redux/userSlice";
+import { setCompany } from '../redux/companySlice';
 
-function Login() {
+function CompanyLogin() {
     const dispatch = useDispatch();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -14,18 +14,17 @@ function Login() {
     const handLogin = async (e) => {
         e.preventDefault();
 
-        axios.post("http://localhost:5000/loginUser", { email, password })
+        axios.post("http://localhost:5000/loginCompany", { email, password })
             .then(result => {
-                if (result.data !== "error") {
-                    dispatch(setUser(result.data));
-                    navigate("/index")
+                if (result.data != "error") {
+                    console.log(result.data)
+                    dispatch(setCompany(result.data));
+                    navigate("/company")
                 }
-                else {
-                    console.log("Credential Error")
+                else
                     toast.error("Invalid Credentials", {
                         position: "top-center"
                     });
-                }
             })
             .catch(error => {
                             toast.error("Something went wrong. 😢", {
@@ -38,7 +37,7 @@ function Login() {
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
             <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-                <h2 className="text-2xl font-bold mb-6 text-center text-gray-900">Login</h2>
+                <h2 className="text-2xl font-bold mb-6 text-center text-gray-900">Login as Company</h2>
                 <form onSubmit={handLogin}>
                     <div className="mb-4">
                         <label htmlFor="email" className="block text-gray-700 font-bold mb-2">Email</label>
@@ -51,7 +50,7 @@ function Login() {
                     <button type="submit" className="w-full cursor-pointer bg-gray-900 text-white py-2 rounded-lg hover:bg-gray-700 focus:outline-none focus:bg-gray-700">Login</button>
                 </form>
                 <div className="mt-4 text-center">
-                    <Link to="/register" className="w-full block cursor-pointer bg-gray-300 text-gray-900 py-2 rounded-lg hover:bg-gray-400 focus:outline-none focus:bg-gray-400">Create New Account</Link>
+                    <Link to="/companyRegister" className="w-full block cursor-pointer bg-gray-300 text-gray-900 py-2 rounded-lg hover:bg-gray-400 focus:outline-none focus:bg-gray-400">Create New Account</Link>
                 </div>
             </div>
             <div className="mt-10 text-center">
@@ -62,4 +61,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default CompanyLogin
