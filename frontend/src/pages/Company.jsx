@@ -3,18 +3,29 @@ import CompanyDetail from "../components/CompanyDetail";
 import Dashboard from "../components/Dashboard";
 import JobPosted from "../components/JobPosted";
 import { FaSignOutAlt } from "react-icons/fa";
+import CreateVacancy from "../components/CreateVacancy";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "../redux/companySlice";
+import { useNavigate } from "react-router-dom";
 
 
 
 const Company = () => {
   const [selectedOption, setSelectedOption] = useState("Profile");
-
+  const dispatch = useDispatch();
   const options = [
     { name: "Profile", content: <CompanyDetail /> },
     { name: "Dashboard", content: <Dashboard /> },
     { name: "Vacancies Posted", content: <JobPosted /> },
-    { name: "Applicants", content: "Applicants list here..." },
+    { name: "Applicants", content: <CreateVacancy /> },
+    { name: "Create Vacancy", content: <CreateVacancy /> },
   ];
+  const navigate = useNavigate();
+  const handleLogout = (e) => {
+    e.preventDefault();
+    dispatch(logoutUser());
+    navigate("/companyLogin")
+  }
 
   return (
     <div className="h-screen bg-gray-900 flex">
@@ -45,8 +56,9 @@ const Company = () => {
           ))}
         </ul>
         {/* Logout Button */}
-        <div className="mt-50">
+        <div className="mt-45">
           <button
+            onClick={handleLogout}
             className="w-full flex items-center justify-center gap-2 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
           >
             Logout
