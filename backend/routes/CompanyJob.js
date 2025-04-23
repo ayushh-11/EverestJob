@@ -1,13 +1,18 @@
 const express = require("express");
-const candidateModel = require("../models/Candidate");
+
 const vacancyModel = require("../models/Vacancy")
 const router = express.Router();
 
-router.get("/index",async (req, res) => {
-    vacancyModel.find({})
+router.get("/companyJob/:cid",async (req, res) => {
+    vacancyModel.find({
+        postedBy : req.params.cid
+    })
     .then(result => {
-        if(result)
+        if(result){
+            console.log(req.params.cid)
+            console.log(result)
             res.json(result)
+        }
     })
     .catch(error => {
         if(error)

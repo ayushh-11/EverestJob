@@ -1,13 +1,21 @@
 import React,{useState, useEffect} from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
+import { useNavigate } from 'react-router-dom';
+import { logoutUser } from '../redux/userSlice';
 
 function UserNav() {
   const location = useLocation(); // Hook to get the current route location
   // Function to check if a link is active
   const isActive = (path) => location.pathname === path;
-
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const userData = useSelector((state) => state.user.user) || [];
+  const handleLogout = (e) => {
+    e.preventDefault();
+    dispatch(logoutUser());
+    navigate("/login");
+  }
   
    
   return (
@@ -56,7 +64,7 @@ function UserNav() {
             <img className="h-10 w-10 rounded-full" src={`http://localhost:5000/${userData.profile}`} />
           </Link>
           <Link
-            to="/login"
+            onClick={handleLogout}
             className="bg-white text-gray-900 px-4 py-3 rounded-md hover:bg-gray-200 transition-colors duration-200 cursor-pointer font-semibold"
           >
             Logout

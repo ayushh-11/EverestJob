@@ -1,13 +1,33 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import JobCard from '../components/JobCard';
 import Footer from '../components/Footer';
 import Cats from '../components/Cats';
-import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { addJob } from '../redux/jobSlice';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 function Home() {
-  const jobs = useSelector((state) => state.job.jobs) || [];
+  const dispatch = useDispatch();
+  const [jobs, setJobs] = useState([])
+
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/index');
+        if (response.data) {
+          console.log('Fetched Jobs:', response.data);
+          dispatch(addJob(response.data));
+          setJobs(response.data);
+        }
+      } catch (error) {
+        console.error('Error fetching jobs:', error);
+      }
+    };
+    fetchJobs();
+  }, []);
+  
   return (
     <div className="bg-gray-50">
       {/* Navbar */}

@@ -6,10 +6,9 @@ import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const CompanyDetail = () => {
+const CompanyDetail = ({companyData}) => {
   const dispatch = useDispatch();
   
-  const companyData = useSelector((state) => state.company.company) || [];
   
   const [company, setCompanyData] = useState(companyData);
   const [editing, setEditing] = useState(false);

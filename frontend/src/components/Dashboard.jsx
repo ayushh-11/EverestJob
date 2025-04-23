@@ -1,9 +1,9 @@
 import React from "react";
-import { FiBriefcase, FiUsers, FiFileText, FiDollarSign, FiClock, FiCheckCircle } from "react-icons/fi";
+import { FiBriefcase, FiDollarSign, FiCheckCircle } from "react-icons/fi";
 import { useSelector } from "react-redux";
 
 const Dashboard = () => {
-  const company = useSelector((state) => state.company.company) || [];
+  
   // Sample data - replace with your actual data
   const stats = {
     vacanciesPosted: 12,

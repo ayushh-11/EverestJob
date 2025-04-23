@@ -1,4 +1,4 @@
-const candidateModel = require("../models/Candidate");
+
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
@@ -11,7 +11,7 @@ router.post("/loginCompany", (req, res) => {
         if (result) {
             bcrypt.compare(password, result.password, (passwordError, passwordResult) => {
                 if (passwordResult){
-                    req.session.userId = result._id;
+                    req.session.cid = result._id;
                     res.json(result)
                 }
                 else

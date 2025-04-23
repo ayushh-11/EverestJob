@@ -13,10 +13,11 @@ const vacancySchema = new mongoose.Schema({
         ref : "company",
         required : true
     },
-    selectedStatus : {
-        type : Boolean,
-        default : false
-    }
+    description : String,
+    location : String,
+    companyLogo : String,
+    category : String,
+    companyName : String
 },{timestamps : true})
 
 const vacancyModel = new mongoose.model("vacancy", vacancySchema);

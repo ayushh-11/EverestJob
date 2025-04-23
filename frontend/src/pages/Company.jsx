@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CompanyDetail from "../components/CompanyDetail";
 import Dashboard from "../components/Dashboard";
 import JobPosted from "../components/JobPosted";
@@ -7,18 +7,38 @@ import CreateVacancy from "../components/CreateVacancy";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../redux/companySlice";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import axios from "axios";
+
 
 
 
 const Company = () => {
+
+  const company = useSelector((state) => state.company.company) || [];
   const [selectedOption, setSelectedOption] = useState("Profile");
   const dispatch = useDispatch();
+  const [jobs, setJobs] = useState(null);
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/companyJob/${company._id}`);
+        if (response.data) {
+          console.log('Fetched Jobs:', response.data);
+          setJobs(response.data);
+        }
+      } catch (error) {
+        console.error('Error fetching jobs:', error);
+      }
+    };
+    fetchJobs();
+  }, []);
   const options = [
-    { name: "Profile", content: <CompanyDetail /> },
+    { name: "Profile", content: <CompanyDetail companyData={company}/> },
     { name: "Dashboard", content: <Dashboard /> },
-    { name: "Vacancies Posted", content: <JobPosted /> },
-    { name: "Applicants", content: <CreateVacancy /> },
-    { name: "Create Vacancy", content: <CreateVacancy /> },
+    { name: "Vacancies Posted", content: <JobPosted jobs={jobs} /> },
+    { name: "Applicants", content: <CreateVacancy company={company}/> },
+    { name: "Create Vacancy", content: <CreateVacancy company={company}/> },
   ];
   const navigate = useNavigate();
   const handleLogout = (e) => {
@@ -33,11 +53,11 @@ const Company = () => {
       <div className="w-64 bg-gray-800 text-gray-300 p-6">
         <div className="flex flex-col items-center mb-8">
           <img
-            src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            src={`http://localhost:5000/${company.logo}`}
             alt="Company Logo"
             className="w-16 h-16 rounded-full border-4 border-gray-700 mb-4"
           />
-          <h2 className="text-xl font-semibold text-white">Tech Innovators Inc.</h2>
+          <h2 className="text-xl font-semibold text-white">T{company.name}</h2>
         </div>
 
         <ul className="space-y-2">
@@ -46,7 +66,7 @@ const Company = () => {
               <button
                 onClick={() => setSelectedOption(option.name)}
                 className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${selectedOption === option.name
-                    ? "bg-blue-600 text-white"
+                    ? "bg-gray-700 text-white"
                     : "hover:bg-gray-700"
                   }`}
               >

@@ -18,6 +18,8 @@ const updateUser = require("./routes/CandidateUpdate")
 const createCompany = require("./routes/CompanyRegister")
 const loginCompany = require("./routes/CompanyLogin")
 const updateCompany = require("./routes/CompanyUpdate")
+const createVacancy = require("./routes/CreateVacancy")
+const companyJob = require("./routes/CompanyJob")
 
 //Initialize session
 app.use(session({
@@ -56,6 +58,8 @@ app.use("/",updateUser)
 app.use("/", createCompany)
 app.use("/", loginCompany)
 app.use("/", updateCompany)
+app.use("/", createVacancy)
+app.use("/", companyJob)
 
 // Start server
 const PORT = process.env.PORT || 5000; 
