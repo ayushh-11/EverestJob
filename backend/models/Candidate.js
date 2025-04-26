@@ -8,7 +8,6 @@ const candidateSchema = new mongoose.Schema({
     phone : String,
     bio : String,
     skill : [String]
-    
 },{timestamps : true})
 
 const candidateModel = new mongoose.model("candidate", candidateSchema);

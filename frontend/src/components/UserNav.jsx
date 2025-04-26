@@ -1,4 +1,4 @@
-import React,{useState, useEffect} from 'react';
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector,useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom';
@@ -24,7 +24,7 @@ function UserNav() {
         {/* Logo Section */}
         <div className="flex items-center gap-2">
           <img src="logo.png" alt="Logo" className="h-8 w-8 rounded-full" />
-          <h1 className="text-lg font-bold text-white">Everest Job</h1>
+          <h1 className="text-lg font-bold text-white hidden md:block">Everest Job</h1>
         </div>
 
         {/* Navigation Links */}

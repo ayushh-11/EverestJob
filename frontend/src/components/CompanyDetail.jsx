@@ -88,7 +88,7 @@ const CompanyDetail = ({companyData}) => {
   };
 
   return (
-    <div className="p-6 h-150 rounded-lg bg-gray-800 text-gray-100 shadow-lg">
+    <div className="p-6 h-150 rounded-lg bg-gray-800 text-gray-100 shadow-lg overflow-scroll">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">Company Profile</h2>
         {!editing ? (

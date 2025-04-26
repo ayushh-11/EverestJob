@@ -20,6 +20,9 @@ const loginCompany = require("./routes/CompanyLogin")
 const updateCompany = require("./routes/CompanyUpdate")
 const createVacancy = require("./routes/CreateVacancy")
 const companyJob = require("./routes/CompanyJob")
+const applyVacancy = require("./routes/ApplyVacancy")
+const getApplication = require("./routes/GetApplication");
+const applicationStatus = require("./routes/ApplicationStatus");
 
 //Initialize session
 app.use(session({
@@ -60,7 +63,9 @@ app.use("/", loginCompany)
 app.use("/", updateCompany)
 app.use("/", createVacancy)
 app.use("/", companyJob)
-
+app.use("/", applyVacancy)
+app.use("/", getApplication)
+app.use("/", applicationStatus)
 // Start server
 const PORT = process.env.PORT || 5000; 
 app.listen(PORT, () => {

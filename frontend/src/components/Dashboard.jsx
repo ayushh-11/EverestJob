@@ -1,12 +1,12 @@
 import React from "react";
-import { FiBriefcase, FiDollarSign, FiCheckCircle } from "react-icons/fi";
+import { FiBriefcase, FiCheckCircle } from "react-icons/fi";
+import { FaRupeeSign } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 
-const Dashboard = () => {
-  
+const Dashboard = ({ jobs }) => {
+
   // Sample data - replace with your actual data
   const stats = {
-    vacanciesPosted: 12,
     activeApplications: 47,
     interviewsScheduled: 8,
     hiredThisMonth: 5,
@@ -14,16 +14,21 @@ const Dashboard = () => {
     timeToHire: "24 days"
   };
 
-  const recentVacancies = [
-    { id: 1, title: "Senior React Developer", applicants: 15, status: "Active" },
-    { id: 2, title: "UX Designer", applicants: 8, status: "Active" },
-    { id: 3, title: "DevOps Engineer", applicants: 12, status: "Closed" }
-  ];
+  // Convert date string to Date object and sort in descending order
+  const recentVacancies = jobs
+    .sort((a, b) => new Date(b.date) - new Date(a.date))
+    .slice(0, 3);
 
+  //Calculate average salary
+  var sum = 0;
+  jobs.forEach(job => {
+    sum += parseInt(job.salary)
+  })
+  const averageSalary = sum / jobs.length;
   return (
     <div className="p-6 space-y-6">
       <h2 className="text-2xl font-bold text-white">Company Dashboard</h2>
-      
+
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Vacancies Posted */}
@@ -31,13 +36,13 @@ const Dashboard = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-400">Vacancies Posted</p>
-              <p className="text-3xl font-bold text-white">{stats.vacanciesPosted}</p>
+              <p className="text-3xl font-bold text-white">{jobs.length}</p>
             </div>
             <div className="p-3 bg-blue-600 rounded-full">
               <FiBriefcase className="text-white text-xl" />
             </div>
           </div>
-          
+
         </div>
 
         {/* Hired This Month */}
@@ -51,9 +56,7 @@ const Dashboard = () => {
               <FiCheckCircle className="text-white text-xl" />
             </div>
           </div>
-          <div className="mt-4 pt-4 border-t border-gray-700">
-            <a href="#" className="text-blue-400 hover:underline text-sm">View new hires</a>
-          </div>
+
         </div>
 
         {/* Average Salary */}
@@ -61,13 +64,13 @@ const Dashboard = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-400">Average Salary</p>
-              <p className="text-3xl font-bold text-white">{stats.averageSalary}</p>
+              <p className="text-3xl font-bold text-white">Rs.{parseInt(averageSalary)}</p>
             </div>
             <div className="p-3 bg-red-600 rounded-full">
-              <FiDollarSign className="text-white text-xl" />
+              <FaRupeeSign className="text-white text-xl" />
             </div>
           </div>
-          
+
         </div>
 
       </div>
@@ -80,8 +83,6 @@ const Dashboard = () => {
             <thead>
               <tr>
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Position</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Applicants</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Status</th>
                 
               </tr>
             </thead>
@@ -89,17 +90,8 @@ const Dashboard = () => {
               {recentVacancies.map((vacancy) => (
                 <tr key={vacancy.id}>
                   <td className="px-4 py-3 whitespace-nowrap text-white">{vacancy.title}</td>
-                  <td className="px-4 py-3 whitespace-nowrap text-white">{vacancy.applicants}</td>
-                  <td className="px-4 py-3 whitespace-nowrap">
-                    <span className={`px-2 py-1 text-xs rounded-full ${
-                      vacancy.status === "Active" 
-                        ? "bg-green-900 text-green-300" 
-                        : "bg-gray-700 text-gray-300"
-                    }`}>
-                      {vacancy.status}
-                    </span>
-                  </td>
                   
+
                 </tr>
               ))}
             </tbody>

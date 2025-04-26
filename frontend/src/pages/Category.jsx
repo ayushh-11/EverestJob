@@ -11,11 +11,14 @@ function Category() {
   const [filteredJobs, setFilteredJobs] = useState([]);
 
   useEffect(() => {
-    const results = jobs.filter(job =>
-      job.category.toLowerCase().includes(cat.toLowerCase())
-    );
+    const trimmedCat = cat.trim().toLowerCase();
+    const results = trimmedCat
+      ? jobs.filter((job) =>
+          job.category?.toLowerCase().includes(trimmedCat)
+        )
+      : [];
     setFilteredJobs(results);
-  }, [cat, jobs]); // Runs when `cat` or `jobs` changes
+  }, [cat, jobs]);
 
   return (
     <div>

@@ -8,11 +8,7 @@ const vacancySchema = new mongoose.Schema({
         enum : ["job", "internship"]
     },
     expiry : Date,
-    postedBy : {
-        type : mongoose.Schema.Types.ObjectId,
-        ref : "company",
-        required : true
-    },
+    postedBy : String,
     description : String,
     location : String,
     companyLogo : String,

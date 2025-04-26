@@ -27,21 +27,20 @@ function Index() {
     const search = new Search("title");
     search.addIndex("title");
     search.addIndex("description");
-    search.addIndex("category");
     search.addDocuments(jobs);
     return search;
   }, [jobs]);
 
   // Function to get recommended jobs based on user skills
   const getRecommendations = useMemo(() => {
-    if (!userSkills || userSkills.length === 0) return jobs;
+    if (!userSkills || userSkills.length === 0) return jobs.slice(0,6);
 
     const results = userSkills
       .map((skill) => searchEngine.search(skill))
       .flat()
       .filter((job, index, self) => self.findIndex((j) => j.title === job.title) === index);
 
-    return results.length > 0 ? results : jobs;
+    return results.length > 0 ? results.slice(0,6) : jobs.slice(0,6);
   }, [searchEngine, userSkills, jobs]);
 
   // Effect to update recommended jobs once

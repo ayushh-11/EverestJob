@@ -6,7 +6,7 @@ import axios from "axios";
 import 'react-toastify/dist/ReactToastify.css';
 
 
-const CreateVacancy = ({ company }) => {
+const CreateVacancy = ({ company, setReload }) => {
 
   const [formData, setFormData] = useState({
     title: '',
@@ -42,6 +42,7 @@ const CreateVacancy = ({ company }) => {
             companyLogo : company.logo,
             companyName : company.name
           });
+          setReload(prev => !prev);
         }
         else {
           toast.error("Failed to create vacancy", {

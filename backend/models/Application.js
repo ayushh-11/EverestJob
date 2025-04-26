@@ -1,16 +1,16 @@
 const mongoose = require("mongoose");
 
 const applicationSchema = new mongoose.Schema({
-    vacancyId : {
-        type : mongoose.Schema.Types.ObjectId,
-        ref : "vacancy"
-    },
-    appliedBy : {
-        type : mongoose.Schema.Types.ObjectId,
-        ref : "candidate"
+    jobId : String,
+    userId : String,
+    cv : String,
+    postedBy : String,
+    status : {
+        type : Boolean,
+        default : false
     }
 },{timestamps : true});
 
 const applicationModel = new mongoose.model("application" , applicationSchema);
 
-modeule.exports = applicationModel;
+module.exports = applicationModel;

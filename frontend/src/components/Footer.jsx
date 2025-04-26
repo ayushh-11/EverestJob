@@ -4,71 +4,41 @@ import { FaInstagram } from 'react-icons/fa6';
 
 function Footer() {
   return (
-    <footer className="bg-gray-900 text-white py-12">
+    <footer className="bg-gray-900 text-white py-6">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Location Section */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
+          {/* Location */}
           <div>
-            <h3 className="text-lg font-bold mb-4">Location</h3>
-            <p className="text-gray-400">Kathmandu, Nepal</p>
+            <h3 className="text-base font-semibold mb-2">Location</h3>
+            <p className="text-gray-400 text-sm">Kathmandu, Nepal</p>
           </div>
 
-          {/* Everest Job Section */}
+          {/* Everest Job Info */}
           <div>
-            <h3 className="text-lg font-bold mb-4">Everest Job</h3>
-            <button className="bg-gray-800 text-white px-6 py-3 rounded-md hover:bg-gray-700 transition-colors duration-200">
-              Company Login
-            </button>
+            <h3 className="text-base font-semibold mb-2">Everest Job</h3>
+            <p className="text-gray-400 text-sm">Connecting talented individuals with top job opportunities across Nepal.</p>
           </div>
 
-          {/* Follow Us Section */}
+          {/* Social Media */}
           <div>
-            <h3 className="text-lg font-bold mb-4">Follow Us</h3>
-            <div className="flex space-x-4">
-              <a
-                href="https://www.facebook.com"
-                className="text-3xl text-gray-400 hover:text-white transition-colors duration-200"
-              >
+            <h3 className="text-base font-semibold mb-2">Follow Us</h3>
+            <div className="flex gap-4 text-2xl text-gray-400">
+              <a href="https://www.facebook.com" className="hover:text-white transition">
                 <CiFacebook />
               </a>
-              <a
-                href="https://www.linkedin.com"
-                className="text-3xl text-gray-400 hover:text-white transition-colors duration-200"
-              >
+              <a href="https://www.linkedin.com" className="hover:text-white transition">
                 <CiLinkedin />
               </a>
-              <a
-                href="https://www.instagram.com"
-                className="text-3xl text-gray-400 hover:text-white transition-colors duration-200"
-              >
+              <a href="https://www.instagram.com" className="hover:text-white transition">
                 <FaInstagram />
               </a>
             </div>
           </div>
-
-          {/* Newsletter Section (Optional) */}
-          <div>
-            <h3 className="text-lg font-bold mb-4">Newsletter</h3>
-            <p className="text-gray-400 mb-4">Subscribe to our newsletter for updates.</p>
-            <form className="flex">
-              <input
-                type="email"
-                placeholder="Your email"
-                className="flex-grow px-4 py-2 bg-gray-800 text-white rounded-l-md outline-none placeholder-gray-500"
-              />
-              <button
-                type="submit"
-                className="bg-gray-800 text-white px-4 py-2 rounded-r-md hover:bg-gray-700 transition-colors duration-200"
-              >
-                Subscribe
-              </button>
-            </form>
-          </div>
         </div>
 
-        {/* Copyright Section */}
-        <div className="mt-8 text-center text-sm text-gray-500">
-          &copy; 2023 Everest Job. All rights reserved.
+        {/* Bottom Line */}
+        <div className="mt-6 border-t border-gray-800 pt-4 text-center text-xs text-gray-500">
+          &copy; {new Date().getFullYear()} Everest Job. All rights reserved.
         </div>
       </div>
     </footer>

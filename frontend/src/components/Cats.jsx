@@ -10,7 +10,7 @@ function Cats({ setCat }) {
     },
     {
       id: 2,
-      title: 'Accounting',
+      title: 'Accountant',
       description: 'Accounting and auditing on entry level to professional.',
       image: '/a.jpg',
     },
@@ -43,7 +43,7 @@ function Cats({ setCat }) {
           <div
             key={item.id}
             className="bg-gray-800 rounded-lg shadow-lg overflow-hidden border-2 border-transparent transition-all duration-300 hover:border-blue-600 cursor-pointer transform hover:scale-105"
-            onClick={() => setCat(item.title.toLowerCase())}
+            onClick={() => setCat(item?.title.toLowerCase())}
           >
             <div className="relative h-48 overflow-hidden">
               <img

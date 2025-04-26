@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 function JobCard({ job }) {
   const navigate = useNavigate();
   const userMode = useSelector((state) => state.user.auth) || [];
+  
   const companyMode = useSelector((state) => state.company.auth) || [];
   const handleDetail = (id) => {
     navigate(`/jobdetail?query=${id}`);
@@ -81,7 +82,7 @@ function JobCard({ job }) {
       {userMode == "user" &&
         <div className="px-6 py-4 bg-gray-50 border-t border-gray-100">
           <button
-            onClick={() => handleDetail(job.id)}
+            onClick={() => handleDetail(job._id)}
             className="w-full bg-gray-800 text-gray-200 px-6 py-3 rounded-lg font-semibold
              hover:bg-gray-700 hover:text-white cursor-pointer shadow-md transition-all duration-300 transform hover:scale-105"
           >
@@ -96,7 +97,7 @@ function JobCard({ job }) {
             className="w-full bg-red-800 text-gray-200 px-6 py-3 rounded-lg font-semibold
              hover:bg-red-700 hover:text-white cursor-pointer shadow-md transition-all duration-300 transform hover:scale-105"
           >
-            View Details
+            Delete
           </button>
         </div>
       }

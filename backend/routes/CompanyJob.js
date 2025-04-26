@@ -9,8 +9,7 @@ router.get("/companyJob/:cid",async (req, res) => {
     })
     .then(result => {
         if(result){
-            console.log(req.params.cid)
-            console.log(result)
+            
             res.json(result)
         }
     })
