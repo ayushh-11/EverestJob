@@ -18,7 +18,7 @@ function SearchPage() {
     useEffect(() => {
         const results = jobs.filter(job =>
             job.title.toLowerCase().includes(query.toLowerCase()) ||
-            job.company.toLowerCase().includes(query.toLowerCase()) ||
+            job.companyName.toLowerCase().includes(query.toLowerCase()) ||
             job.description.toLowerCase().includes(query.toLowerCase())
         );
         setFilteredJobs(results);

@@ -5,6 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch } from "react-redux";
 import { setCompany } from '../redux/companySlice';
+import { RiAdminFill } from "react-icons/ri";
 
 function CompanyLogin() {
     const dispatch = useDispatch();
@@ -27,34 +28,81 @@ function CompanyLogin() {
                     });
             })
             .catch(error => {
-                            toast.error("Something went wrong. 😢", {
-                                position: "top-center"
-                            });
-                            console.error(error);
-                        })
+                toast.error("Something went wrong. 😢", {
+                    position: "top-center"
+                });
+                console.error(error);
+            })
     }
-
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-            <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-                <h2 className="text-2xl font-bold mb-6 text-center text-gray-900">Login as Company</h2>
-                <form onSubmit={handLogin}>
-                    <div className="mb-4">
-                        <label htmlFor="email" className="block text-gray-700 font-bold mb-2">Email</label>
-                        <input onChange={(e) => setEmail(e.target.value)} type="email" id="email" name="email" className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-500" required />
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-4">
+            <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-8 transition-all duration-300 hover:shadow-2xl">
+                <div className="flex flex-col items-center mb-8">
+                    <div className="bg-purple-100 p-4 rounded-full mb-4">
+                        <RiAdminFill className="w-8 h-8 text-purple-600" />
                     </div>
-                    <div className="mb-6">
-                        <label htmlFor="password" className="block text-gray-700 font-bold mb-2">Password</label>
-                        <input onChange={(e) => setPassword(e.target.value)} type="password" id="password" name="password" className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-500" required />
-                    </div>
-                    <button type="submit" className="w-full cursor-pointer bg-gray-900 text-white py-2 rounded-lg hover:bg-gray-700 focus:outline-none focus:bg-gray-700">Login</button>
-                </form>
-                <div className="mt-4 text-center">
-                    <Link to="/companyRegister" className="w-full block cursor-pointer bg-gray-300 text-gray-900 py-2 rounded-lg hover:bg-gray-400 focus:outline-none focus:bg-gray-400">Create New Account</Link>
+                    <h2 className="text-3xl font-bold text-gray-800">Company Login</h2>
+                    <p className="text-gray-500 mt-2">Welcome back! Login to Hire</p>
                 </div>
-            </div>
-            <div className="mt-10 text-center">
-                <Link to="/" className="bg-black text-white px-6 py-3 rounded-md hover:bg-gray-800 cursor-pointer">Go to Home</Link>
+    
+                <form onSubmit={handLogin} className="space-y-6">
+                    <div>
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                        <input 
+                            onChange={(e) => setEmail(e.target.value)}
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-purple-100 focus:border-purple-500 transition-all"
+                            placeholder="john@example.com"
+                            required 
+                        />
+                    </div>
+    
+                    <div>
+                        <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                        <input 
+                            onChange={(e) => setPassword(e.target.value)}
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-purple-100 focus:border-purple-500 transition-all"
+                            placeholder="••••••••"
+                            required 
+                        />
+                    </div>
+    
+                    <button 
+                        type="submit" 
+                        className="w-full bg-gradient-to-r from-gray-700 to-gray-600 text-white py-3.5 rounded-lg font-medium hover:from-gray-800 hover:to-gray-700 transition-all shadow-md hover:shadow-lg"
+                    >
+                        Sign In
+                    </button>
+                </form>
+    
+                <div className="mt-6 text-center">
+                    <Link 
+                        to="/register" 
+                        className="text-gray-600 hover:text-gray-800 font-medium inline-flex items-center gap-2 transition-colors"
+                    >
+                        <span>Don't have an account?</span>
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </Link>
+                </div>
+    
+                <div className="mt-8 text-center">
+                    <Link 
+                        to="/" 
+                        className="inline-flex items-center bg-gradient-to-r from-gray-600 to-gray-700 text-white px-6 py-2.5 rounded-lg font-medium hover:from-gray-700 hover:to-gray-800 transition-all shadow-md hover:shadow-lg"
+                    >
+                        <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                        </svg>
+                        Go to Home
+                    </Link>
+                </div>
             </div>
             <ToastContainer />
         </div>

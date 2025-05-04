@@ -38,8 +38,8 @@ const Company = () => {
 
   const options = [
     { name: "Profile", content: <CompanyDetail companyData={company} /> },
-    { name: "Dashboard", content: <Dashboard jobs={jobs} /> },
-    { name: "Vacancies Posted", content: <JobPosted jobs={jobs} /> },
+    { name: "Dashboard", content: <Dashboard jobs={jobs}  />},
+    { name: "Vacancies Posted", content: <JobPosted jobs={jobs} setReload={setReload}/>},
     { name: "Applications", content: <ApplicationList company={company} /> },
     { name: "Create Vacancy", content: <CreateVacancy company={company} setReload={setReload} /> },
   ];
@@ -104,7 +104,7 @@ const Company = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 p-4 sm:p-6 md:p-8 overflow-y-auto text-white">
+      <div className="flex-1 p-4 sm:p-6 md:p-8 text-white h-170 overflow-y-scroll">
         {options.find(option => option.name === selectedOption)?.content}
       </div>
     </div>

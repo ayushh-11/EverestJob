@@ -3,16 +3,20 @@ import axios from 'axios';
 
 function ApplicationCard({ application }) {
   const { user, vacancy, application: app } = application;
-  const postedDate = new Date(vacancy.createdAt).toLocaleDateString();
+  const postedDate = new Date(vacancy?.createdAt).toLocaleDateString();
   const [status, setStatus] = useState(app.status);
+  const [loading, setLoading] = useState(false);
 
   const handleStatusToggle = async () => {
+    setLoading(true);
     try {
-      const updatedStatus = !status;
       await axios.put(`http://localhost:5000/applicationStatus/${app._id}`, {
-        status: updatedStatus,
+        status: true,
+        email : user.email,
+        vacancy
       });
-      setStatus(updatedStatus);
+      setStatus(true);
+      setLoading(false);
       console.log("Updated")
     } catch (err) {
       console.error("Failed to update status", err);
@@ -20,7 +24,7 @@ function ApplicationCard({ application }) {
   };
 
   return (
-    <div className="bg-gray-900 border border-gray-700 rounded-xl p-6 flex flex-col md:flex-row gap-6 hover:shadow-lg transition text-gray-200">
+    <div className="bg-gray-900 border border-gray-700 rounded-xl p-6 flex flex-col md:flex-row gap-6 hover:shadow-lg transition text-gray-200 ">
       {/* Profile + Name */}
       <div className="flex-shrink-0 flex flex-col items-center gap-2">
         <img
@@ -36,17 +40,24 @@ function ApplicationCard({ application }) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
           {/* Left Details */}
           <div className="space-y-1 text-sm">
-            <p><span className="font-medium text-gray-400">Email:</span> {user.email}</p>
-            <p><span className="font-medium text-gray-400">Phone:</span> {user.phone}</p>
-            <p><span className="font-medium text-gray-400">Bio:</span> {user.bio}</p>
+            <p><span className="font-medium text-gray-400">Email : </span> {user.email}</p>
+            <p><span className="font-medium text-gray-400">Phone : </span> {user.phone}</p>
+            <p><span className="font-medium text-gray-400">Bio : </span> {user.bio}</p>
+            <p><span className="font-medium text-gray-400">Applied Date :</span>
+              {new Date(vacancy.createdAt).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              })}
+            </p>
             <p><span className="font-medium text-gray-400">Skills:</span> {user.skill.join(', ')}</p>
           </div>
 
           {/* Job Info */}
           <div className="space-y-1 text-sm">
-            <p><span className="font-medium text-gray-400">Job Title:</span> {vacancy.title}</p>
-            <p><span className="font-medium text-gray-400">Salary:</span> Rs. {vacancy.salary}</p>
-            <p><span className="font-medium text-gray-400">Date Posted:</span> {postedDate}</p>
+            <p><span className="font-medium text-gray-400">Job Title : </span> {vacancy.title}</p>
+            <p><span className="font-medium text-gray-400">Salary : </span> Rs. {vacancy.salary}</p>
+            <p><span className="font-medium text-gray-400">Date Posted : </span> {postedDate}</p>
             <p>
               <span className="font-medium text-gray-400">Application Status:</span>{' '}
               <span className={status ? 'text-green-400' : 'text-yellow-400'}>
@@ -66,14 +77,21 @@ function ApplicationCard({ application }) {
           >
             View CV
           </a>
-          <button
-            onClick={handleStatusToggle}
-            className={`px-4 py-2 rounded-md transition ${
-              status ? 'bg-yellow-500 hover:bg-yellow-600' : 'bg-green-600 hover:bg-green-700'
-            } text-white`}
-          >
-            Mark as {status ? 'Pending' : 'Selected'}
-          </button>
+          {!status &&
+            <button
+              onClick={handleStatusToggle}
+              className={`px-4 py-2 rounded-md transition ${status ? 'bg-yellow-500 hover:bg-yellow-600' : 'bg-green-600 hover:bg-green-700'
+                } text-white`}
+            >
+              {loading ? "Updating....." : "Mark as Selected" }
+            </button>
+          }
+
+          {
+            status &&
+            <h2 className='text-green-500 p-2'>User is selected for the post</h2>
+          }
+
         </div>
       </div>
     </div>

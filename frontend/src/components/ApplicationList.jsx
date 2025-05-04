@@ -3,13 +3,13 @@ import ApplicationCard from './ApplicationCard';
 import axios from 'axios';
 
 function ApplicationList({ company }) {
-    console.log("Company if =>>>>>>>"+company._id)
+    console.log("Company id =>>>>>>>"+company._id)
     const [applications, setApplications] = useState(null);
     useEffect(() => {
         axios.get(`http://localhost:5000/getApplication/${company._id}`)
         .then(response => {
             if(response.data){
-                console.log(response.data)
+                console.log("enriched apllication data = "+response.data)
                 setApplications(response.data)
             }
         })

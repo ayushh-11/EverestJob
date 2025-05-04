@@ -76,13 +76,15 @@ const UserDetails = ({ userData }) => {
 
   return (
     <div className="bg-white p-8 rounded-lg w-full mx-auto">
-      <h2 className="text-2xl font-bold mb-2 text-gray-800">About yourself</h2>
-      <p className="text-gray-500 mb-6">Fill out your primary information.</p>
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold text-gray-800">Profile Settings</h2>
+        <p className="text-gray-500 mt-1">Update your personal information and preferences</p>
+      </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Profile Picture Upload */}
-        <div className="flex items-center space-x-4 mb-6">
-          <div className="relative">
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Profile Picture Section */}
+        <div className="flex items-center gap-6 mb-8">
+          <div className="relative group">
             <img
               src={
                 user.profile instanceof File
@@ -90,18 +92,14 @@ const UserDetails = ({ userData }) => {
                   : `http://localhost:5000/${user.profile}`
               }
               alt="Profile"
-              className="w-16 h-16 rounded-full border-2 border-gray-300 object-cover"
+              className="w-20 h-20 rounded-full border-4 border-white shadow-lg object-cover group-hover:opacity-90 transition-opacity"
             />
             <label
               htmlFor="profile-picture-upload"
-              className="absolute -bottom-2 -right-2 bg-blue-500 text-white rounded-full p-1 cursor-pointer"
+              className="absolute bottom-0 right-0 bg-purple-600 text-white rounded-full p-1.5 cursor-pointer shadow-sm hover:bg-purple-700 transition-colors"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path
-                  fillRule="evenodd"
-                  d="M4 5a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-1.586a1 1 0 01-.707-.293l-1.121-1.121A2 2 0 0011.172 3H8.828a2 2 0 00-1.414.586L6.293 4.707A1 1 0 015.586 5H4zm6 9a3 3 0 100-6 3 3 0 000 6z"
-                  clipRule="evenodd"
-                />
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
               </svg>
             </label>
             <input
@@ -113,110 +111,130 @@ const UserDetails = ({ userData }) => {
               onChange={handleChange}
             />
           </div>
-          <button
-            type="button"
-            onClick={() => document.getElementById("profile-picture-upload").click()}
-            className="text-blue-500 font-semibold hover:text-blue-600"
-          >
-            Edit Profile Picture
-          </button>
+          <div>
+            <h3 className="font-medium text-gray-800">{user.name}</h3>
+            <p className="text-sm text-gray-500">{user.email}</p>
+          </div>
         </div>
 
-        {/* Name */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Name*</label>
-          <input
-            type="text"
-            name="name"
-            value={user.name}
-            onChange={handleChange}
-            className="w-full p-2 rounded border"
-          />
+        {/* Form Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Name */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+            <input
+              type="text"
+              name="name"
+              value={user.name}
+              onChange={handleChange}
+              className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-100 transition-all"
+              placeholder="Enter your full name"
+            />
+          </div>
+
+          {/* Email */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+            <input
+              type="email"
+              name="email"
+              value={user.email}
+              onChange={handleChange}
+              className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-100 transition-all"
+              placeholder="your.email@example.com"
+            />
+          </div>
+
+          {/* Phone */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+            <input
+              type="tel"
+              name="phone"
+              value={user.phone}
+              onChange={handleChange}
+              className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-100 transition-all"
+              placeholder="+1 (555) 000-0000"
+            />
+          </div>
+
+          {/* Password */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">New Password</label>
+            <input
+              type="password"
+              name="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-100 transition-all"
+              placeholder="••••••••"
+            />
+            {password.length > 0 && password.length < 6 && (
+              <p className="text-red-500 text-sm mt-1">Password must be at least 6 characters</p>
+            )}
+          </div>
         </div>
 
         {/* Bio */}
         <div>
-          <label className="block text-sm font-medium text-gray-700">Bio*</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Bio</label>
           <textarea
             name="bio"
             value={user.bio}
             onChange={handleChange}
-            className="w-full p-2 rounded border"
+            className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-100 transition-all"
+            rows="4"
+            placeholder="Tell us about yourself..."
           />
         </div>
 
         {/* Skills */}
         <div>
-          <label className="block text-sm font-medium text-gray-700">Skills*</label>
-          {user.skill.map((skill, index) => (
-            <div key={index} className="flex items-center space-x-2 mb-2">
-              <input
-                type="text"
-                value={skill}
-                onChange={(e) => handleSkillChange(index, e.target.value)}
-                className="w-full p-2 rounded border"
-              />
-              <button
-                type="button"
-                onClick={() => removeSkill(index)}
-                className="bg-red-500 hover:bg-red-600 px-3 py-1.5 rounded text-white"
-              >
-                X
-              </button>
-            </div>
-          ))}
-          <button
-            type="button"
-            onClick={addSkill}
-            className="bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded text-white mt-2"
-          >
-            + Add Skill
-          </button>
+          <div className="flex items-center justify-between mb-3">
+            <label className="block text-sm font-medium text-gray-700">Skills</label>
+            <button
+              type="button"
+              onClick={addSkill}
+              className="text-purple-600 hover:text-purple-700 text-sm font-medium flex items-center gap-1"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
+              </svg>
+              Add Skill
+            </button>
+          </div>
+          
+          <div className="space-y-3">
+            {user.skill.map((skill, index) => (
+              <div key={index} className="flex items-center gap-3">
+                <input
+                  type="text"
+                  value={skill}
+                  onChange={(e) => handleSkillChange(index, e.target.value)}
+                  className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-100 transition-all"
+                  placeholder="Skill name"
+                />
+                <button
+                  type="button"
+                  onClick={() => removeSkill(index)}
+                  className="p-2 text-red-500 hover:text-red-600 rounded-lg hover:bg-red-50 transition-colors"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* Email */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Email*</label>
-          <input
-            type="email"
-            name="email"
-            value={user.email}
-            onChange={handleChange}
-            className="w-full p-2 rounded border"
-          />
-        </div>
-
-        {/* Password */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">New Password</label>
-          <input
-            type="password"
-            name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-2 rounded border"
-          />
-        </div>
-
-        {/* Phone */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Phone*</label>
-          <input
-            type="tel"
-            name="phone"
-            value={user.phone}
-            onChange={handleChange}
-            className="w-full p-2 rounded border"
-          />
-        </div>
-
-        {/* Submit */}
-        <div className="mt-6">
+        {/* Submit Button */}
+        <div className="pt-6">
           <button
             type="submit"
-            className="w-full bg-gray-800 hover:bg-gray-600 px-4 py-2 rounded text-white"
+            className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 rounded-lg transition-colors shadow-sm hover:shadow-md"
           >
-            Submit
+            Save Changes
           </button>
         </div>
       </form>

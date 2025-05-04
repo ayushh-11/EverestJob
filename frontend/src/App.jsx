@@ -11,25 +11,29 @@ import JobDetail from "./pages/JobDetail";
 import Company from "./pages/Company";
 import CompanyRegister from "./pages/CompanyRegister";
 import CompanyLogin from "./pages/CompanyLogin";
+import Admin from "./pages/Admin";
+import { useSelector } from "react-redux";
 
 function App() {
-  
+  const userAuth = useSelector((state) => state.user.auth) || "";
+  const companyAuth = useSelector((state) => state.company.auth) || "";
   return (
      <>
      <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />}></Route>
-        <Route path="/login" element={<Login />}></Route>
+        <Route path="/login" element={userAuth == "user" ? <Index /> : <Login />}></Route>
         <Route path="/register" element={<Register />}></Route>
-        <Route path="/index" element={<Index />}></Route>
-        <Route path="/search" element={<SearchPage />}></Route>
-        <Route path="/profile" element={<Profile />}></Route>
-        <Route path="/category" element={<Category />}></Route>
-        <Route path="/explore" element={<Explore />}></Route>
+        <Route path="/index"  element={userAuth == "user" ? <Index /> : <Login />}> </Route>
+        <Route path="/search"  element={userAuth == "user" ? <SearchPage /> : <Login />}></Route>
+        <Route path="/profile"  element={userAuth == "user" ? <Profile /> : <Login />}></Route>
+        <Route path="/category"  element={userAuth == "user" ? <Category /> : <Login />}></Route>
+        <Route path="/explore"  element={userAuth == "user" ? <Explore /> : <Login />}></Route>
         <Route path="/jobDetail" element={<JobDetail />}></Route>
-        <Route path="/company" element={<Company />}></Route>
+        <Route path="/company" element={companyAuth == "company" ? <Company /> : <CompanyLogin />}></Route>
         <Route path="/companyRegister" element={<CompanyRegister />}></Route>
-        <Route path="/companyLogin" element={<CompanyLogin />}></Route>
+        <Route path="/companyLogin" element={companyAuth == "company" ?<Company/>: <CompanyLogin />}></Route>
+        <Route path="/admin" element={<Admin />}></Route>
       </Routes>
      </BrowserRouter>
   

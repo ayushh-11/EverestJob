@@ -88,82 +88,180 @@ function CompanyRegister() {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-            <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl">
-                <h2 className="text-2xl font-bold mb-6 text-center text-gray-900">Register and hire !</h2>
-                <form onSubmit={handleSubmit}>
-                    <div className="mb-4">
-                        <label htmlFor="name" className="block text-gray-700 font-bold mb-2">Company Name</label>
-                        <input onChange={handleChange} type="text" id="name" name="name" className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-500" required />
-                    </div>
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-4">
+            <div className="w-full max-w-2xl bg-white rounded-xl shadow-2xl p-8 transition-all duration-300 hover:shadow-xl">
+                <div className="text-center mb-10">
+                    <h1 className="text-3xl font-bold text-gray-900 mb-2">Company Registration</h1>
+                    <p className="text-gray-500">Start hiring talented candidates today</p>
+                </div>
 
-                    <div className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label htmlFor="email" className="block text-gray-700 font-bold mb-2">Email</label>
-                            <input onChange={handleChange} type="email" id="email" name="email" className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-500" required />
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    {/* Logo Upload */}
+                    <div className="flex items-center gap-6 mb-8">
+                        <div className="relative group">
+                            <div className="w-20 h-20 rounded-full border-4 border-white shadow-lg bg-gray-100 flex items-center justify-center overflow-hidden">
+                                {formData.logo ? (
+                                    <img
+                                        src={URL.createObjectURL(formData.logo)}
+                                        alt="Logo Preview"
+                                        className="w-full h-full object-cover"
+                                    />
+                                ) : (
+                                    <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0H5m14 0h2m-2 0H3" />
+                                    </svg>
+                                )}
+                            </div>
+                            <label
+                                htmlFor="profilePic"
+                                className="absolute bottom-0 right-0 bg-gray-700 text-white rounded-full p-2 cursor-pointer shadow-sm hover:bg-gray-800 transition-colors"
+                            >
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                                <input
+                                    id="profilePic"
+                                    type="file"
+                                    name="profilePic"
+                                    accept="image/*"
+                                    className="hidden"
+                                    onChange={handleChange}
+                                />
+                            </label>
                         </div>
                         <div>
-                            <label htmlFor="password" className="block text-gray-700 font-bold mb-2">Password</label>
-                            <input onChange={handleChange} type="password" id="password" name="password" className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-500" required />
+                            <h3 className="font-medium text-gray-800">Company Logo</h3>
+                            <p className="text-sm text-gray-500">JPEG or PNG, 1MB max</p>
                         </div>
                     </div>
 
-                    <div className="mb-4">
-                        <label htmlFor="phone" className="block text-gray-700 font-bold mb-2">Phone</label>
-                        <input onChange={handleChange} type="tel" id="phone" name="phone" className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-500" required />
+                    {/* Form Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {/* Company Name */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Company Name</label>
+                            <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                onChange={handleChange}
+                                className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-gray-100 focus:border-gray-500 transition-all"
+                                placeholder="Acme Corp"
+                                required
+                            />
+                        </div>
+
+                        {/* Email & Password */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                onChange={handleChange}
+                                className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-gray-100 focus:border-gray-500 transition-all"
+                                placeholder="contact@company.com"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                onChange={handleChange}
+                                className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-gray-100 focus:border-gray-500 transition-all"
+                                placeholder="••••••••"
+                                required
+                            />
+                        </div>
+
+                        {/* Phone */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                            <input
+                                type="tel"
+                                id="phone"
+                                name="phone"
+                                onChange={handleChange}
+                                className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-gray-100 focus:border-gray-500 transition-all"
+                                placeholder="+1 555 000 0000"
+                                required
+                            />
+                        </div>
                     </div>
 
-                    <div className="mb-4">
-                        <label htmlFor="description" className="block text-gray-700 font-bold mb-2">Description</label>
-                        <textarea onChange={handleChange} id="description" name="description" className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-500"></textarea>
+                    {/* Description */}
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Company Description</label>
+                        <textarea
+                            id="description"
+                            name="description"
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-gray-100 focus:border-gray-500 transition-all"
+                            rows="4"
+                            placeholder="Describe your company's mission and values..."
+                        />
                     </div>
 
-                    <div className="mb-4">
-                        <label htmlFor="specialitiess" className="block text-gray-700 font-bold mb-2">Specialities (Press Enter or Comma to add)</label>
+                    {/* Specialities */}
+                    <div>
+                        <div className="flex items-center justify-between mb-3">
+                            <label className="block text-sm font-medium text-gray-700">Specialities</label>
+                            <span className="text-sm text-gray-500">Press Enter or comma to add</span>
+                        </div>
                         <input
                             type="text"
-                            id="specialities"
-                            name="specialities"
                             value={specialitiesInput}
                             onChange={(e) => setspecialitiesInput(e.target.value)}
                             onKeyDown={handlespecialitiesKeyDown}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-500"
+                            className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-gray-100 focus:border-gray-500 transition-all"
+                            placeholder="Technology, Recruitment, Consulting..."
                         />
-                        <div className="flex flex-wrap mt-2">
+                        <div className="flex flex-wrap gap-2 mt-3">
                             {formData.specialities.map((s, index) => (
-                                <div key={index} className="bg-gray-200 text-gray-800 px-3 py-1 rounded-full mr-2 mb-2 flex items-center">
-                                    {s}
+                                <div key={index} className="bg-gray-100 text-gray-800 px-3 py-1.5 rounded-full flex items-center gap-2">
+                                    <span>{s}</span>
                                     <button
                                         type="button"
                                         onClick={() => handleRemovespecialities(index)}
-                                        className="ml-2 text-red-500 hover:text-red-700"
+                                        className="text-gray-500 hover:text-gray-700 transition-colors"
                                     >
-                                        ×
+                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
                                     </button>
                                 </div>
                             ))}
                         </div>
                     </div>
 
-                    <div className="mb-6">
-                        <label htmlFor="profilePic" className="block text-gray-700 font-bold mb-2">Logo</label>
-                        <input onChange={handleChange} type="file" id="profilePic" name="profilePic" className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-500" />
-                    </div>
-
-                    <button type="submit" className="w-full bg-gray-900 text-white py-2 rounded-lg hover:bg-gray-700 focus:outline-none focus:bg-gray-700">Register</button>
+                    {/* Submit Button */}
+                    <button
+                        type="submit"
+                        className="w-full bg-gradient-to-r from-gray-700 to-gray-600 text-white py-4 rounded-lg font-medium hover:from-gray-800 hover:to-gray-700 transition-all shadow-lg hover:shadow-xl"
+                    >
+                        Register Company
+                    </button>
                 </form>
 
-                <div className="mt-4 text-center">
-                    <Link to="/companyLogin" className="block w-full bg-gray-300 text-gray-900 py-2 rounded-lg hover:bg-gray-400 focus:outline-none focus:bg-gray-400 text-center">Already have an account? Login</Link>
+                <div className="mt-6 text-center">
+                    <Link 
+                        to="/companyLogin" 
+                        className="text-gray-600 hover:text-gray-800 font-medium inline-flex items-center gap-2"
+                    >
+                        <span>Already have an account?</span>
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </Link>
                 </div>
             </div>
-            <div className="mt-10 text-center">
-                <Link to="/" className="bg-black text-white px-6 py-3 rounded-md hover:bg-gray-800 cursor-pointer">Go to Home</Link>
-            </div>
             <ToastContainer />
-
         </div>
     );
 }
 
-export default CompanyRegister
+export default CompanyRegister;

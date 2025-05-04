@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from "react";
-import axios from "axios"
 import UserNav from "../components/UserNav";
 import { useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
@@ -7,9 +6,11 @@ import JobCard from "../components/JobCard";
 import Footer from "../components/Footer";
 import { useSelector } from "react-redux";
 import { Search } from "js-search"; // Use ExactWordIndex for better matching
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Index() {
-  
+
   const [searchQuery, setSearchQuery] = useState("");
   const [recommendedJobs, setRecommendedJobs] = useState([]);
   const navigate = useNavigate();
@@ -19,8 +20,8 @@ function Index() {
   const jobs = useSelector((state) => state.job.jobs) || [];
   const userData = useSelector((state) => state.user.user) || [];
   const userSkills = userData?.skill; // Example user skills
-  
-  
+
+
 
   // Memoized Search Engine
   const searchEngine = useMemo(() => {
@@ -33,14 +34,15 @@ function Index() {
 
   // Function to get recommended jobs based on user skills
   const getRecommendations = useMemo(() => {
-    if (!userSkills || userSkills.length === 0) return jobs.slice(0,6);
+    if (!userSkills || userSkills.length === 0) return jobs.slice(0, 6);
 
     const results = userSkills
       .map((skill) => searchEngine.search(skill))
       .flat()
       .filter((job, index, self) => self.findIndex((j) => j.title === job.title) === index);
 
-    return results.length > 0 ? results.slice(0,6) : jobs.slice(0,6);
+    return results;
+
   }, [searchEngine, userSkills, jobs]);
 
   // Effect to update recommended jobs once
@@ -52,13 +54,20 @@ function Index() {
 
   // Function to handle search query
   const handleSearch = () => {
+    if (searchQuery.trim() == "") {
+      toast.error("Enter keyword to search", {
+        position: "top-center",
+        autoClose: 1000
+      });
+      return;
+    }
     navigate(`/search?query=${searchQuery}`);
   };
 
   return (
     <div>
       {/* Navbar */}
-      <UserNav/>
+      <UserNav />
 
       {/* Search Area */}
       <div className="w-full flex flex-col items-center text-center py-20 bg-gray-900 shadow-xl">
@@ -68,14 +77,16 @@ function Index() {
           </h2>
           <div className="relative w-full mx-auto group">
             <div className="flex items-center bg-gray-800 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 px-2 py-1">
+
               <input
                 type="text"
                 placeholder="Job title, keywords, or company..."
-                className="flex-grow px-6 py-5 bg-transparent text-white outline-none placeholder-gray-500 text-lg border-0 focus:ring-0"
+                className="required flex-grow px-6 py-5 bg-transparent text-white outline-none placeholder-gray-500 text-lg border-0 focus:ring-0"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 aria-label="Search for jobs"
                 onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+
               />
               <button
                 className="ml-2 px-8 py-4 cursor-pointer bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg active:scale-95 flex items-center justify-center"
@@ -84,6 +95,7 @@ function Index() {
                 <FaSearch className="text-white text-xl mr-2" />
                 <span className="text-white font-semibold hidden sm:inline">Search</span>
               </button>
+
             </div>
           </div>
         </div>
@@ -104,8 +116,26 @@ function Index() {
         </div>
       </div>
 
+      {/* Job Trending */}
+      {recommendedJobs.length == 0 && (
+        <div className="w-full max-w-7xl mx-auto mt-7 p-6">
+          <h2 className="text-3xl font-bold text-gray-900 mb-8">
+            Trending Jobs
+          </h2>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {jobs.slice(0,6).map((job, index) => (
+              <JobCard key={index} job={job} />
+            ))}
+          </div>
+        </div>
+      )}
+
+
+
       {/* Footer */}
       <Footer />
+      <ToastContainer />
     </div>
   );
 }

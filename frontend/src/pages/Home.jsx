@@ -12,6 +12,7 @@ function Home() {
   const dispatch = useDispatch();
   const [jobs, setJobs] = useState([])
 
+
   useEffect(() => {
     const fetchJobs = async () => {
       try {
@@ -19,7 +20,7 @@ function Home() {
         if (response.data) {
           console.log('Fetched Jobs:', response.data);
           dispatch(addJob(response.data));
-          setJobs(response.data);
+          setJobs(response.data.slice(0,6));
         }
       } catch (error) {
         console.error('Error fetching jobs:', error);

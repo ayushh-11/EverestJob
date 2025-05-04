@@ -17,22 +17,22 @@ function Cats({ setCat }) {
     {
       id: 3,
       title: 'Coding',
-      description: 'Description for job title 3.',
+      description: 'Coding.',
       image: '/c.jpg',
     },
     {
       id: 4,
       title: 'Plumbing',
-      description: 'Description for job title 3.',
+      description: 'Plumbing.',
       image: '/p.jpg',
     },
     {
       id: 5,
       title: 'Driving',
-      description: 'Description for job title 3.',
+      description: 'Driving',
       image: '/d.jpg',
     },
-    // Add more items as needed
+
   ];
 
   return (

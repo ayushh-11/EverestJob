@@ -16,13 +16,16 @@ router.post("/apply", upload.single("cv"), async (req, res) => {
     try {
         const { jobId, userId, postedBy } = req.body;
         const cvPath = req.file.path;
+        await applicationModel.deleteOne({
+            jobId,
+            userId
+        })
         const application = new applicationModel({
             jobId,
             userId,
             cv: cvPath,
             postedBy
         });
-
         await application.save();
         res.status(201).json("success");
     } catch (error) {

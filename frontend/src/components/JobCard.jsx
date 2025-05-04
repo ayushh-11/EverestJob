@@ -1,17 +1,37 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaBuilding, FaMapMarkerAlt, FaClock, FaMoneyBillWave, FaCalendarAlt } from 'react-icons/fa';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-function JobCard({ job }) {
+function JobCard({ job, setReload, isAdmin }) {
   const navigate = useNavigate();
   const userMode = useSelector((state) => state.user.auth) || [];
-  
   const companyMode = useSelector((state) => state.company.auth) || [];
   const handleDetail = (id) => {
     navigate(`/jobdetail?query=${id}`);
   };
-  console.log("User Mode ===> "+userMode)
+  const handleDelete = (vid) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this job posting?");
+    if (!confirmDelete) return;
+    //axios
+    axios.delete(`http://localhost:5000/delete/${vid}`)
+      .then(response => {
+        if (response.data == "success") {
+          toast.success("Vacancy deleted", {
+            position: "top-center"
+          });
+          setReload(prev => !prev); // Update state in parent
+        }
+      })
+      .catch(error => {
+        if (error)
+          console.log("Error while deleting " + error);
+      })
+  }
+  console.log("User Mode ===> " + userMode)
   return (
     <div className="bg-white rounded-xl overflow-hidden flex flex-col h-full border border-gray-200 transition-all duration-300 hover:shadow-lg hover:border-blue-200">
       <div className="p-6 flex-grow">
@@ -90,10 +110,10 @@ function JobCard({ job }) {
           </button>
         </div>
       }
-      {companyMode == "company" &&
+      {(companyMode == "company" || isAdmin) &&
         <div className="px-6 py-4 bg-gray-50 border-t border-gray-100">
           <button
-            
+            onClick={() => handleDelete(job._id)}
             className="w-full bg-red-800 text-gray-200 px-6 py-3 rounded-lg font-semibold
              hover:bg-red-700 hover:text-white cursor-pointer shadow-md transition-all duration-300 transform hover:scale-105"
           >
@@ -101,6 +121,7 @@ function JobCard({ job }) {
           </button>
         </div>
       }
+      <ToastContainer />
     </div>
   );
 }
