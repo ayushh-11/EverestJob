@@ -53,8 +53,53 @@ function Register() {
         }));
     };
 
+    const validateForm = () => {
+        const { name, email, password, phone, skill } = formData;
+
+        if (!name || !/^[A-Za-z\s]+$/.test(name)) {
+            toast.error("Please enter a valid name.", {
+                position: "top-center"
+            });
+            return false;
+        }
+
+        if (!email || !/\S+@\S+\.\S+/.test(email)) {
+            toast.error("Please enter a valid email address.", {
+                position: "top-center"
+            });
+            return false;
+        }
+
+        if (!password || password.length < 6) {
+            toast.error("Password must be at least 6 characters.", {
+                position: "top-center"
+            });
+            return false;
+        }
+
+        if (!phone || !/^\+?\d{1,3}[-\s]?\(?\d{1,4}\)?[-\s]?\d{1,4}[-\s]?\d{1,4}$/.test(phone)) {
+            toast.error("Please enter a valid phone number.", {
+                position: "top-center"
+            });
+            return false;
+        }
+
+        if (skill.length === 0) {
+            toast.error("Please add at least one skill.", {
+                position: "top-center"
+            });
+            return false;
+        }
+
+        return true;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Validate form fields
+        if (!validateForm()) return;
+
         const data = new FormData();
         Object.entries(formData).forEach(([key, value]) => {
             if (key === "skill") {
@@ -64,17 +109,15 @@ function Register() {
             }
         });
 
-
         axios.post("http://localhost:5000/createUser", data)
             .then(response => {
-                if(response.data == "exist"){
-                                    toast.error("Email is taken", {
-                                        position: "top-center"
-                                    });
-                                    return;
-                                }
-                if (response.data == "success") {
-                    
+                if (response.data === "exist") {
+                    toast.error("Email is taken", {
+                        position: "top-center"
+                    });
+                    return;
+                }
+                if (response.data === "success") {
                     toast.success("Registration successful! 🎉", {
                         position: "top-center"
                     });
@@ -85,7 +128,7 @@ function Register() {
                     position: "top-center"
                 });
                 console.error(error);
-            })
+            });
     };
 
     return (

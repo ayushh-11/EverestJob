@@ -6,18 +6,27 @@ function ApplicationCard({ application }) {
   const postedDate = new Date(vacancy?.createdAt).toLocaleDateString();
   const [status, setStatus] = useState(app.status);
   const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [message, setMessage] = useState('');
 
   const handleStatusToggle = async () => {
+    if (!message.trim()) {
+      alert("Please enter a message.");
+      return;
+    }
+
     setLoading(true);
     try {
       await axios.put(`http://localhost:5000/applicationStatus/${app._id}`, {
         status: true,
-        email : user.email,
-        vacancy
+        email: user.email,
+        vacancy,
+        message: message
       });
       setStatus(true);
       setLoading(false);
-      console.log("Updated")
+      setShowModal(false); // Close the modal after successful update
+      console.log("Updated");
     } catch (err) {
       console.error("Failed to update status", err);
     }
@@ -79,7 +88,7 @@ function ApplicationCard({ application }) {
           </a>
           {!status &&
             <button
-              onClick={handleStatusToggle}
+              onClick={() => setShowModal(true)}
               className={`px-4 py-2 rounded-md transition ${status ? 'bg-yellow-500 hover:bg-yellow-600' : 'bg-green-600 hover:bg-green-700'
                 } text-white`}
             >
@@ -94,6 +103,36 @@ function ApplicationCard({ application }) {
 
         </div>
       </div>
+
+      {/* Modal for Message Input */}
+      {showModal && (
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-gray-500 p-8 rounded-xl w-100">
+            <h2 className="text-xl font-semibold mb-4">Enter a Message</h2>
+            <textarea
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              rows="10"
+              className="w-full p-3 border border-gray-300 rounded-md mb-4"
+              placeholder="Enter a message to the user"
+            />
+            <div className="flex justify-between">
+              <button
+                onClick={() => setShowModal(false)}
+                className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleStatusToggle}
+                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

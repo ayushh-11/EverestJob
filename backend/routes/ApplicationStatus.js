@@ -5,6 +5,7 @@ const nodemailer = require("nodemailer");
 
 router.put("/applicationStatus/:id", async (req, res) => {
   const vacancy = req.body.vacancy;
+  const message = req.body.message;
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -17,8 +18,8 @@ router.put("/applicationStatus/:id", async (req, res) => {
     from: "Everest Job",
     to: req.body.email,
     subject: `Job Application Update for ${vacancy.title}`,
-    text: `You had applied to the job for post of ${vacancy.title}. Congratulations, you are selected and your renumeration will be ${vacancy.salary}. The location is ${vacancy.location}`,
-    html: `<b>You had applied to the job for post of ${vacancy.title}. Congratulations, you are selected and your renumeration will be Rs. ${vacancy.salary}. The location is ${vacancy.location}.</b>`,
+    text: `You had applied to the job for post of ${vacancy.title}. Congratulations, you are selected.`,
+    html: `<b>${message}</b>`,
   });
 
   console.log("Mail ====> ", info)
